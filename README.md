@@ -1,5 +1,5 @@
 # ai-resize-layers-to-artboard
-Adobe Illustrator jsx script to loop through and resize each layer's artwork to fit proportionally inside the artboard. This is based on the work of Carlos Canto, dbburgess and Ruandre Janse Van Rensburg. 
+Adobe Illustrator jsx script to loop through and resize each layer's artwork to fit proportionally inside the artboard. 
 
 Works in CC2014 (should work in later versions).
 
