@@ -118,31 +118,33 @@ var newLayer    = idoc.layers.add();
 
 for (i=1; i<=totalLayers; i++) {  
   var ilayer = idoc.layers[i];
-  ilayer.visible = true;
-  var newGroup = newLayer.groupItems.add();
-  var activePageItems = ilayer.pageItems.length;
-  for (s = 0; s < activePageItems; s++) {
-    var item = ilayer.pageItems[s].duplicate(newGroup,ElementPlacement.PLACEATBEGINNING);
+  if (ilayer.locked == false) {
+    ilayer.visible = true;
+    var newGroup = newLayer.groupItems.add();
+    var activePageItems = ilayer.pageItems.length;
+    for (s = 0; s < activePageItems; s++) {
+      var item = ilayer.pageItems[s].duplicate(newGroup,ElementPlacement.PLACEATBEGINNING);
+    }
+    ilayer.pageItems.removeAll();
+    newGroup.move(ilayer,ElementPlacement.PLACEATBEGINNING);
+
+
+
+    var abActive   = idoc.artboards[idoc.artboards.getActiveArtboardIndex()];
+    var abProps    = getArtboardBounds(abActive);
+    var boundsDiff = itemBoundsDiff(newGroup);
+
+    //alert(abActive, abProps,boundsDiff);
+
+    // Scale object to fit artboard:
+    fitItem(newGroup, abProps, boundsDiff);
+
+    var groupPageItemTotal = newGroup.pageItems.length;
+    for (j=0;j < groupPageItemTotal;j++){
+      newGroup.pageItems[j].duplicate(ilayer,ElementPlacement.PLACEATBEGINNING);
+    }
+    newGroup.remove();
   }
-  ilayer.pageItems.removeAll();
-  newGroup.move(ilayer,ElementPlacement.PLACEATBEGINNING);
-
-
-
-  var abActive   = idoc.artboards[idoc.artboards.getActiveArtboardIndex()];
-  var abProps    = getArtboardBounds(abActive);
-  var boundsDiff = itemBoundsDiff(newGroup);
-
-  //alert(abActive, abProps,boundsDiff);
-
-  // Scale object to fit artboard:
-  fitItem(newGroup, abProps, boundsDiff);
-
-  var groupPageItemTotal = newGroup.pageItems.length;
-  for (j=0;j < groupPageItemTotal;j++){
-    newGroup.pageItems[j].duplicate(ilayer,ElementPlacement.PLACEATBEGINNING);
-  }
-  newGroup.remove();
 }
 newLayer.remove();
 
